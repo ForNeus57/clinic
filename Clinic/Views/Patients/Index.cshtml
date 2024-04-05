@@ -1,0 +1,166 @@
+@model PaginatedList<Patient>
+
+@{
+    ViewData["Title"] = "Patients Page";
+}
+
+<div style="padding: 5vh; border: solid black 2px; border-radius: 7vh">
+    <div class="row justify-content-between">
+        <div class="col-3">
+            <h2>
+                Tabela Pacjenci:
+            </h2>
+        </div>
+        <div class="col-3">
+            <div class="d-flex flex-row-reverse">
+                <a class="btn btn-dark btn-lg" asp-action="Create">
+                    <img src="~/img/database-add.svg" alt="Database Add Icon"/>
+                    Dodaj Pacjenta
+                </a>
+            </div>
+        </div>
+    </div>
+
+    @* <form asp-controller="Patients" asp-action="Index" method="post"> *@
+    @*     <div class="row justify-content-center"> *@
+    @*         <div class="col-3"> *@
+    @*             <input class="form-control" type="search" placeholder="Wyszukaj" aria-label="Search" name="SearchString"> *@
+    @*         </div> *@
+    @*         <div class="col-3"> *@
+    @*             <select /> *@
+    @*         </div> *@
+    @*         <div class="col-3"> *@
+    @*             <button class="btn btn-dark" type="submit">Szukaj</button> *@
+    @*         </div> *@
+    @*     </div> *@
+    @* </form> *@
+
+    <table class="table table-hover">
+        <caption>Lista Pacjentów.</caption>
+        <thead>
+        <tr>
+            <th scope="col" class="d-grid">
+                <a href="@Url.Action("Index", new { order = ViewData["IdSort"], pageNumber = Model.PageIndex })"
+                   class="btn-block link-underline-opacity-0">
+                    ID
+                </a>
+            </th>
+            <th scope="col">
+                <a href="@Url.Action("Index", new { order = ViewData["FirstNameSort"], pageNumber = Model.PageIndex })"
+                   class="link-underline-opacity-0">
+                    Imię
+                </a>
+            </th>
+            <th scope="col">
+                <a href="@Url.Action("Index", new { order = ViewData["LastNameSort"], pageNumber = Model.PageIndex })"
+                   class="link-underline-opacity-0">
+                    Nazwisko
+                </a>
+            </th>
+            <th scope="col">
+                <a href="@Url.Action("Index", new { order = ViewData["PeselSort"], pageNumber = Model.PageIndex })"
+                   class="link-underline-opacity-0">
+                    Numer PESEL
+                </a>
+            </th>
+            <th scope="col">
+                Więcej
+            </th>
+            <th>
+            </th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var item in Model.Items)
+        {
+            <tr>
+                <th scope="row">
+                    @Html.DisplayFor(modelItem => item.Id)
+                </th>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FirstName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LastName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Pesel)
+                </td>
+                <td>
+                    <a class="btn btn-info btn-sm text-light" asp-action="Details" asp-route-id="@item.Id">
+                        <img src="~/img/building.svg" alt="Building Icon"/>
+                        Adres
+                    </a>
+                </td>
+                <td>
+                    <div class="row justify-content-center">
+                        <div class="col-4">
+                            <a class="btn btn-dark btn-sm" asp-action="Edit" asp-route-id="@item.Id">
+                                <img src="~/img/pencil-square.svg" alt="Database Edit Icon"/>
+                                Edytuj
+                            </a>
+                        </div>
+                        <div class="col-4">
+                            @using (Html.BeginForm("Delete", "Patients", new { id = item.Id }, FormMethod.Post))
+                            {
+                                <button class="btn btn-danger btn-sm" type="submit">
+                                    <img src="~/img/database-x.svg" alt="Database Remove Icon"/>
+                                    Usuń
+                                </button>
+                            }
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+
+    <div>
+        <ul class="pagination">
+            @if (Model.HasPreviousPage)
+            {
+                <li class="page-item">
+                    <a class="page-link" href="@Url.Action("Index", new { pageNumber = Model.PageIndex - 1 })">
+                        &laquo;
+                    </a>
+                </li>
+            }
+            else
+            {
+                <li class="page-item disabled">
+                    <a class="page-link" href="#">&laquo;</a>
+                </li>
+            }
+            @for (var i = 1; i < Model.TotalPages + 1; i++)
+            {
+                @if (i == Model.PageIndex)
+                {
+                    <li class="page-item active">
+                        <a class="page-link" href="@Url.Action("Index", new { pageNumber = i })">@i</a>
+                    </li>
+                }
+                else
+                {
+                    <li class="page-item">
+                        <a class="page-link" href="@Url.Action("Index", new { pageNumber = i })">@i</a>
+                    </li>
+                }
+            }
+            @if (Model.HasNextPage)
+            {
+                <li class="page-item">
+                    <a class="page-link" href="@Url.Action("Index", new { pageNumber = Model.PageIndex + 1 })">
+                        &raquo;
+                    </a>
+                </li>
+            }
+            else
+            {
+                <li class="page-item disabled">
+                    <a class="page-link" href="#">&raquo;</a>
+                </li>
+            }
+        </ul>
+    </div>
+</div>

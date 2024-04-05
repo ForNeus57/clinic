@@ -1,0 +1,36 @@
+﻿version: '3.9'
+
+services:
+  clinic.database:
+    image: postgres:latest
+    container_name: clinic.database
+    environment:
+      - POSTGRES_DB=clinic-db
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    volumes:
+      - ./.containers/clinic_database:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    networks:
+      - clinic-network
+
+  clinic.web:
+    image: ${DOCKER_REGISTRY-}clinicweb
+    container_name: clinic.web
+    build:
+      context: .
+      dockerfile: Clinic/Dockerfile
+    environment:
+      ASPNETCORE_ENVIRONMENT: "Development"
+    depends_on:
+      - "clinic.database"
+    ports:
+      - "8080:8080"
+      - "8081:8081"
+    networks:
+      - clinic-network
+
+networks:
+    clinic-network:
+        driver: bridge

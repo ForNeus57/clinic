@@ -1,0 +1,17 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div style="padding: 5vh; border: solid black 2px; border-radius: 7vh">
+    <div class="row">
+        <div class="text-center">
+            <h2 class="display-5">Clinic - Aplikacja Webowa do zarządzania pacjentami.</h2>
+        </div>
+    </div>
+    <div class="row">
+        <a asp-controller="Patients" asp-action="Index" class="btn btn-dark" style="margin-top: 5vh">
+            <img src="~/img/table.svg" alt="Table Icon"/>
+            Tabela Pacjentów
+        </a>
+    </div>
+</div>

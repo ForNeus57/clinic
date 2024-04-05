@@ -1,0 +1,123 @@
+﻿@model Patient
+
+@{
+    ViewData["Title"] = "Details of given Patient";
+}
+
+<h3>
+    Witaj @Model.FirstName @Model.LastName,
+</h3>
+<div class="row">
+    <div class="col-xs-12 col-sm-10 col-md-8 col-lg-6">
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th scope="col">
+                </th>
+                <th scope="col">
+                </th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <th scope="row">
+                    @Html.DisplayNameFor(model => model.Id)
+                </th>
+                <td>
+                    @Html.DisplayFor(model => model.Id)
+                </td>
+            </tr>
+            <tr>
+                <th scope="row">
+                    Imię i Nazwisko
+                </th>
+                <td>
+                    @Model.FirstName @Model.LastName
+                </td>
+            </tr>
+            <tr>
+                <th scope="row">
+                    @Html.DisplayNameFor(model => model.Pesel)
+                </th>
+                <td>
+                    @Html.DisplayFor(model => model.Pesel)
+                </td>
+            </tr>
+            <tr>
+                <th scope="row">
+                    @Html.DisplayNameFor(model => model.Address.StreetName)
+                </th>
+                <td>
+                    @Html.DisplayFor(model => model.Address.StreetName)
+                </td>
+            </tr>
+            <tr>
+                <th scope="row">
+                    @Html.DisplayNameFor(model => model.Address.StreetNumber)
+                </th>
+                <td>
+                    @Html.DisplayFor(model => model.Address.StreetNumber)
+                </td>
+            </tr>
+            <tr>
+                <th scope="row">
+                    @Html.DisplayNameFor(model => model.Address.ApartmentNumber)
+                </th>
+                <td>
+                    @Html.DisplayFor(model => model.Address.ApartmentNumber)
+                </td>
+            </tr>
+            <tr>
+                <th scope="row">
+                    @Html.DisplayNameFor(model => model.Address.City)
+                </th>
+                <td>
+                    @Html.DisplayFor(model => model.Address.City)
+                </td>
+            </tr>
+            <tr>
+                <th scope="row">
+                    @Html.DisplayNameFor(model => model.Address.ZipCode)
+                </th>
+                <td>
+                    @Html.DisplayFor(model => model.Address.ZipCode)
+                </td>
+            </tr>
+            <tr>
+                <th scope="row">
+                    Pełny Adres
+                </th>
+                <td>
+                    @if (Model.Address.ApartmentNumber != null)
+                    {
+                        <p>
+                            Ul. @Model.Address.StreetName @Model.Address.StreetNumber/@Model.Address.ApartmentNumber, @Model.Address.ZipCode @Model.Address.City
+                        </p>
+                    }
+                    else
+                    {
+                        <p>
+                            Ul. @Model.Address.StreetName @Model.Address.StreetNumber, @Model.Address.ZipCode @Model.Address.City
+                        </p>
+                    }
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<div class="row">
+    <div class="col-3 d-grid">
+        <a class="btn btn-dark btn-block" asp-action="Edit" asp-route-id="@Model.Id">
+            <img src="~/img/pencil-square.svg" alt="Database Edit Icon"/>
+            Edytuj
+        </a>
+    </div>
+    <div class="col-3 d-grid">
+        <a class="btn btn-dark btn-block" asp-action="Index">
+            <img src="~/img/table.svg" alt="Table Icon"/>
+            Powróć do listy Pacjentów
+        </a>
+    </div>
+</div>
+
